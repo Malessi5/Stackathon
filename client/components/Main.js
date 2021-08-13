@@ -12,33 +12,40 @@ function Main(props) {
 
   return (
     <div className="main-container">
-      <div className="search-bar">
-        <h1>Random Drink</h1>
-        <form onSubmit={handleSubmit} autoComplete="off">
-          <button type="submit">Search</button>
-        </form>
-      </div>
       {drink ? (
-        <div>
+        <div id="drink-container">
           <img src={drink.imgUrl} />
-          <h2>{drink.name}</h2>
-          <p>{drink.alcoholic}</p>
-          <p>{drink.category}</p>
-          <p>Glass: {drink.glass}</p>
-          <p>Instructions: {drink.instructions}</p>
-          {drink.ingredients.map((ing) => {
-            return (
-              <p key={ing.key}>
-                {ing.name} - {ing.measurement}
-              </p>
-            );
-          })}
+          <div id="drink-text">
+            <h1>{drink.name}</h1>
+            <p>
+              {drink.alcoholic} {drink.category}
+            </p>
+            <p>Glass: {drink.glass}</p>
+            <p>Instructions: {drink.instructions}</p>
+            <h3>Ingredients</h3>
+            <ol>
+              {drink.ingredients.map((ing) => {
+                return (
+                  <li key={ing.key}>
+                    {ing.measurement} {ing.name}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
         </div>
       ) : (
         <div>
-          <h3>Loading...</h3>
+          <div id="drink-button">
+            <h3>Hit the button!</h3>
+          </div>
         </div>
       )}
+      <div className="search-bar">
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <button type="submit">Find a Random Drink</button>
+        </form>
+      </div>
     </div>
   );
 }
