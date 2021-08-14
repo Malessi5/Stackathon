@@ -27,15 +27,15 @@ h1 {
 }
 #main {
   display: flex;
-  justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
 }
 .main-container {
   display: flex;
   max-width: 500px;
-  justify-content: center;
+  justify-content: 'center';
   flex-direction: column;
   background-color: #93e1d8;
   align-items: center;
@@ -69,21 +69,22 @@ input {
   margin-right: 15px;
   border-radius: 5px;
 }
-button {
-  width: 200px;
-  height: 50px;
-  font-size: 16px;
-  background-color: #09201d;
-  color: white;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: #bcd0c7;
-  color: #353531;
-}
 
 #no-search {
   display: flex;
   justify-content: center;
+}
+
+.home-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#navbar {
+  display: flex;
+  justify-content: space-around;
+  max-width: 500px;
 }

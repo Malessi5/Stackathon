@@ -1,65 +1,52 @@
-import React, { useState } from 'react';
-import { fetchDrink } from '../redux/reducers';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+// import { fetchDrink, fetchSavedDrinks, saveDrink } from '../redux/reducers';
+// import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import SearchIcon from '@material-ui/icons/Search';
 
-function Main(props) {
-  const { getDrink, drink } = props;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
 
-  const handleSubmit = async () => {
-    await getDrink();
-    console.log(drink);
-  };
-
+export default function Main(props) {
+  const classes = useStyles();
   return (
-    <div className="main-container">
-      {drink ? (
-        <div id="drink-container">
-          <img src={drink.imgUrl} />
-          <div id="drink-text">
-            <h1>{drink.name}</h1>
-            <p>
-              {drink.alcoholic} {drink.category}
-            </p>
-            <p>Glass: {drink.glass}</p>
-            <p>Instructions: {drink.instructions}</p>
-            <h3>Ingredients</h3>
-            <ol>
-              {drink.ingredients.map((ing) => {
-                return (
-                  <li key={ing.key}>
-                    {ing.measurement} {ing.name}
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-        </div>
-      ) : (
-        <div>
-          <div id="drink-button">
-            <h3>Hit the button!</h3>
-          </div>
-        </div>
-      )}
-      <div className="search-bar">
-        <form onSubmit={handleSubmit} autoComplete="off">
-          <button type="submit">Find a Random Drink</button>
-        </form>
+    <div className="home-container">
+      <div>
+        <Link to="/random">
+          <Fab variant="extended">
+            <SearchIcon className={classes.extendedIcon} />
+            Find A Drink
+          </Fab>
+        </Link>
       </div>
     </div>
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    drink: state.drink,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     drink: state.drink,
+//     saved: state.saved,
+//   };
+// };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getDrink: () => dispatch(fetchDrink()),
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getDrink: () => dispatch(fetchDrink()),
+//     saveDrink: (drink) => dispatch(saveDrink(drink)),
+//     getSavedDrink: () => dispatch(fetchSavedDrinks()),
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+// export default connect(mapStateToProps, mapDispatchToProps)(Main);
