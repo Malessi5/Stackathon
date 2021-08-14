@@ -1,5 +1,5 @@
 {
-  "name": "async.project",
+  "name": "drinkathon",
   "version": "1.0.0",
   "description": "",
   "main": "./client/app.js",
@@ -8,7 +8,8 @@
     "build": "webpack",
     "build-watch": "webpack -w",
     "start-dev": "webpack -w & nodemon server",
-    "start": "node server"
+    "start": "node server",
+    "seed": "node server/seed.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +25,8 @@
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
@@ -31,6 +34,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.1.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "sequelize": "^6.6.5"
   }
 }
