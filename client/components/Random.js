@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { fetchDrink, fetchSavedDrinks, saveDrink } from '../redux/reducers';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Drink from './Drink';
+import React, {useState, useEffect} from "react";
+import {fetchDrink, fetchSavedDrinks, saveDrink} from "../redux/reducers";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
+import Drink from "./Drink";
+import Container from "@material-ui/core/Container";
 
 function Random(props) {
-  const { getDrink, drink, saveDrink, getSavedDrink, saved } = props;
+  const {getDrink, drink, saveDrink, getSavedDrink, saved} = props;
 
   const handleSubmit = async () => {
     await getDrink();
@@ -28,16 +29,9 @@ function Random(props) {
   }, []);
 
   return (
-    <div className="main-container">
+    <Container className="main-container">
       <Drink drink={drink} saveDrink={saveDrink} findAnother={handleSubmit} />
-
-      {/* <div className="search-bar">
-        <form onSubmit={handleSubmit} autoComplete="off">
-          <button type="submit">Find Another</button>
-        </form>
-        <button onClick={() => saveClick(drink)}>Save</button>
-      </div> */}
-    </div>
+    </Container>
   );
 }
 

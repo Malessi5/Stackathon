@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from "react";
 // import { fetchDrink, fetchSavedDrinks, saveDrink } from '../redux/reducers';
 // import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import SearchIcon from '@material-ui/icons/Search';
+import {Link} from "react-router-dom";
+import {makeStyles} from "@material-ui/core/styles";
+import Fab from "@material-ui/core/Fab";
+import NavigationIcon from "@material-ui/icons/Navigation";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& > *': {
+    "& > *": {
       margin: theme.spacing(1),
     },
   },
@@ -33,20 +33,3 @@ export default function Main(props) {
     </div>
   );
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     drink: state.drink,
-//     saved: state.saved,
-//   };
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     getDrink: () => dispatch(fetchDrink()),
-//     saveDrink: (drink) => dispatch(saveDrink(drink)),
-//     getSavedDrink: () => dispatch(fetchSavedDrinks()),
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Main);

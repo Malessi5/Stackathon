@@ -1,22 +1,22 @@
 const router = require("express").Router();
-const {response} = require("express");
-const firebase = require("firebase");
-var admin = require("firebase-admin");
+
+const admin = require("firebase-admin");
 
 const db = admin.firestore();
 
 router.get("/drinks", async (req, res, next) => {
   try {
     const drinks = await db.collection("drinks").get();
-    let drinkArr = [];
+    const drinkArr = [];
     drinks.docs.forEach((docitem) => {
-      let doc = docitem._fieldsProto;
+      const doc = docitem._fieldsProto;
       drinkArr.push({
         id: docitem.id,
         name: doc.name.stringValue,
         alcoholic: doc.alcoholic.stringValue,
         category: doc.category.stringValue,
         imgUrl: doc.imgUrl.stringValue,
+        glass: doc.glass.stringValue,
         ingredients: doc.ingredients.arrayValue.values.map((i) => {
           return i.stringValue;
         }),
@@ -27,8 +27,7 @@ router.get("/drinks", async (req, res, next) => {
       });
     });
 
-    console.log(drinkArr);
-    res.status(200).json(drinkArr);
+    res.json(drinkArr);
   } catch (error) {
     next(error);
   }
@@ -37,7 +36,7 @@ router.get("/drinks", async (req, res, next) => {
 router.post("/drinks", async (req, res, next) => {
   try {
     const newDrink = await db.collection("drinks").add(req.body);
-    res.status(200).json(newDrink);
+    res.json(newDrink);
   } catch (error) {
     next(error);
   }
@@ -46,7 +45,7 @@ router.post("/drinks", async (req, res, next) => {
 router.delete("/drinks/:id", async (req, res, next) => {
   try {
     await db.collection("drinks").doc(req.params.id).delete();
-    res.status(200).send("Item removed");
+    res.send("Item removed");
   } catch (error) {
     next(error);
   }
