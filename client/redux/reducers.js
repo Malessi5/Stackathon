@@ -51,7 +51,7 @@ export const saveDrink = (drink) => {
     try {
       const response = await axios.post('./api/drinks', drink);
       console.log('saved', response);
-      dispatch(_saveDrink(response.data));
+      dispatch(_saveDrink(drink));
     } catch (error) {
       console.error(error);
     }
@@ -61,6 +61,7 @@ export const fetchSavedDrinks = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get('./api/drinks');
+      console.log(response);
       response.data.sort((a, b) => {
         let fa = a.name.toLowerCase();
         let fb = b.name.toLowerCase();

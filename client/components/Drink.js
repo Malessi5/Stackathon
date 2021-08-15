@@ -41,11 +41,6 @@ const useStyles = makeStyles((theme) => ({
 export default function SingleDrink(props) {
   const { drink, saveDrink, findAnother } = props;
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   return (
     <Card className={classes.root}>
@@ -61,19 +56,6 @@ export default function SingleDrink(props) {
           {`${drink.category} served in a ${drink.glass}`}
         </Typography>
       </CardContent>
-      {/* <CardActions>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions> */}
-      {/* <Collapse in={expanded} timeout="auto" unmountOnExit> */}
       <CardContent>
         <Typography paragraph style={{ fontWeight: 'bold' }}>
           Ingredients:
@@ -82,6 +64,7 @@ export default function SingleDrink(props) {
           return drink.measurements[index] ? (
             <Typography
               paragraph
+              key={index}
             >{`- ${drink.measurements[index]} ${ing} `}</Typography>
           ) : (
             <Typography paragraph>{`- ${ing}`}</Typography>
@@ -108,7 +91,6 @@ export default function SingleDrink(props) {
           <CasinoIcon />
         </IconButton>
       </CardContent>
-      {/* </Collapse> */}
     </Card>
   );
 }

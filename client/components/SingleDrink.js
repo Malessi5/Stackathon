@@ -80,13 +80,14 @@ export default function SingleDrink(props) {
             return drink.measurements[index] ? (
               <Typography
                 paragraph
+                key={index}
               >{`- ${drink.measurements[index]} ${ing} `}</Typography>
             ) : (
               <Typography paragraph>{`- ${ing}`}</Typography>
             );
           })}
           <Typography paragraph style={{ fontWeight: 'bold' }}>
-            Directions:{' '}
+            Directions:
           </Typography>
           <Typography paragraph>{drink.instructions}</Typography>
           <IconButton
