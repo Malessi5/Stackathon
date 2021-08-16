@@ -12,13 +12,12 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import {red} from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -26,7 +25,8 @@ theme = responsiveFontSizes(theme);
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 345,
-    marginBottom: 15,
+    marginBottom: 5,
+    marginTop: 20,
   },
   media: {
     height: 0,
@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
+  },
+  button: {
+    margin: theme.spacing(1),
   },
   expandOpen: {
     transform: "rotate(180deg)",
@@ -58,9 +61,9 @@ export default function SingleDrink(props) {
       <ThemeProvider theme={theme}>
         <CardHeader
           title={drink.name}
-          titleTypographyProps={{variant: "h2", gutterBottom: "true"}}
+          titleTypographyProps={{variant: "h2", gutterBottom: true}}
           subheader={drink.alcoholic}
-          subheaderTypographyProps={{variant: "h4", gutterBottom: "true"}}
+          subheaderTypographyProps={{variant: "h4", gutterBottom: true}}
         />
 
         <CardMedia
@@ -111,14 +114,18 @@ export default function SingleDrink(props) {
             <Typography variant="h5" gutterBottom>
               {drink.instructions}
             </Typography>
-            <IconButton
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
               aria-label="delete"
               onClick={() => {
                 removeDrink(drink);
               }}
+              startIcon={<DeleteIcon />}
             >
-              <DeleteIcon />
-            </IconButton>
+              Delete
+            </Button>
           </CardContent>
         </Collapse>
       </ThemeProvider>

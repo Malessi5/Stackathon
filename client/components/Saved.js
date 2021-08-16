@@ -12,7 +12,7 @@ function Saved(props) {
   }, []);
 
   return saved ? (
-    <Container>
+    <Container disableGutters>
       {saved.map((drink) => {
         return (
           <SingleDrink drink={drink} key={drink.id} removeDrink={removeDrink} />
