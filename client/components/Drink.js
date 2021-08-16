@@ -17,8 +17,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import {red} from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import SaveIcon from "@material-ui/icons/Save";
+import Button from "@material-ui/core/Button";
 import CasinoIcon from "@material-ui/icons/Casino";
 
 let theme = createTheme();
@@ -27,7 +28,8 @@ theme = responsiveFontSizes(theme);
 const useStyles = makeStyles((theme) => ({
   root: {
     // width: 345,
-    marginBottom: 15,
+    marginBottom: 5,
+    marginTop: 20,
   },
   media: {
     height: 0,
@@ -55,9 +57,23 @@ export default function SingleDrink(props) {
       <ThemeProvider theme={theme}>
         <CardHeader
           title={drink.name}
-          titleTypographyProps={{variant: "h2", gutterBottom: "true"}}
+          titleTypographyProps={{variant: "h2", gutterBottom: true}}
           subheader={drink.alcoholic}
-          subheaderTypographyProps={{variant: "h4", gutterBottom: "true"}}
+          subheaderTypographyProps={{variant: "h4", gutterBottom: true}}
+          action={
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="default"
+              aria-label="search"
+              onClick={() => {
+                findAnother();
+              }}
+              startIcon={<CasinoIcon />}
+            >
+              Find Another
+            </Button>
+          }
         />
         <CardMedia
           className={classes.media}
@@ -92,22 +108,18 @@ export default function SingleDrink(props) {
           <Typography variant="h5" gutterBottom>
             {drink.instructions}
           </Typography>
-          <IconButton
-            aria-label="favorite"
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="primary"
+            aria-label="delete"
             onClick={() => {
               saveDrink(drink);
             }}
+            startIcon={<SaveIcon />}
           >
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton
-            aria-label="search"
-            onClick={() => {
-              findAnother();
-            }}
-          >
-            <CasinoIcon />
-          </IconButton>
+            Save
+          </Button>
         </ThemeProvider>
       </CardContent>
     </Card>
