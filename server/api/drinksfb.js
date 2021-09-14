@@ -1,13 +1,13 @@
-const router = require("express").Router();
-const {response} = require("express");
-const firebase = require("firebase");
-var admin = require("firebase-admin");
+const router = require('express').Router();
+const {response} = require('express');
+const firebase = require('firebase');
+var admin = require('firebase-admin');
 
 const db = admin.firestore();
 
-router.get("/drinks", async (req, res, next) => {
+router.get('/drinks', async (req, res, next) => {
   try {
-    const drinks = await db.collection("drinks").get();
+    const drinks = await db.collection('drinks').get();
     let drinkArr = [];
     drinks.docs.forEach((docitem) => {
       let doc = docitem._fieldsProto;
@@ -34,19 +34,32 @@ router.get("/drinks", async (req, res, next) => {
   }
 });
 
-router.post("/drinks", async (req, res, next) => {
+router.post('/drinks', async (req, res, next) => {
   try {
-    const newDrink = await db.collection("drinks").add(req.body);
+    const newDrink = await db.collection('drinks').add(req.body);
     res.status(200).json(newDrink);
   } catch (error) {
     next(error);
   }
 });
 
-router.delete("/drinks/:id", async (req, res, next) => {
+router.post('/users/:id', async (req, res, next) => {
   try {
-    await db.collection("drinks").doc(req.params.id).delete();
-    res.status(200).send("Item removed");
+    // const newUser = await db.collection(`users/${req.body.uid}`).add(req.body);
+    const newUser = await db
+      .collection(`users`)
+      .doc(`${req.body.uid}`)
+      .set(req.body);
+    res.status(200).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/drinks/:id', async (req, res, next) => {
+  try {
+    await db.collection('drinks').doc(req.params.id).delete();
+    res.status(200).send('Item removed');
   } catch (error) {
     next(error);
   }

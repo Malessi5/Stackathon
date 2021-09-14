@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useRef, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -17,6 +17,7 @@ import {makeStyles} from '@material-ui/core';
 import {LockOutlined} from '@material-ui/icons';
 import {createTheme, ThemeProvider} from '@material-ui/core';
 import {useAuth} from '../contexts/AuthContext';
+import {toast} from 'react-toastify';
 
 function Copyright(props) {
   return (
@@ -41,13 +42,43 @@ export default function SignUp() {
     if (passwordRef.current.value === passwordConfirmRef.current.value) {
       try {
         setLoading(true);
-        await signup(emailRef.current.value, passwordRef.current.value);
+        await signup(emailRef.current.value, passwordRef.current.value).then(
+          () => {
+            toast.success('Sign up successful!', {
+              position: 'top-center',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            history.push('/');
+          }
+        );
       } catch (err) {
         console.error(err);
+        toast.error(`${err.message}`, {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setLoading(false);
       }
-      setLoading(false);
     } else {
-      alert('Passwords do not match!');
+      toast.error('Passwords do not match!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
   const [loading, setLoading] = useState(false);
@@ -55,6 +86,7 @@ export default function SignUp() {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const {signup} = useAuth();
+  const history = useHistory();
 
   return (
     <ThemeProvider theme={theme}>

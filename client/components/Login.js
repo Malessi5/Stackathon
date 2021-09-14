@@ -16,7 +16,8 @@ import {makeStyles} from '@material-ui/core';
 import {LockOutlined} from '@material-ui/icons';
 import {createTheme, ThemeProvider} from '@material-ui/core';
 import {useAuth} from '../contexts/AuthContext';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 function Copyright(props) {
   return (
@@ -41,16 +42,39 @@ export default function Login() {
 
     try {
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
+      await login(emailRef.current.value, passwordRef.current.value).then(
+        () => {
+          toast.success('Login successful!', {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          history.push('/');
+        }
+      );
       console.log(currentUser);
     } catch (err) {
       console.error(err);
+      toast.error(`${err.message}`, {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setLoading(false);
     }
-    setLoading(false);
   };
   const [loading, setLoading] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
+  const history = useHistory();
 
   const {login, currentUser} = useAuth();
 
