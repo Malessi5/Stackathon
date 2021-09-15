@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 import {fetchSavedDrinks, removeDrink} from '../redux/reducers';
 import Drink from './Drink';
 import SingleDrink from './SingleDrink';
@@ -7,9 +8,17 @@ import Container from '@material-ui/core/Container';
 
 function Saved(props) {
   const {saved, getSavedDrink, removeDrink, uid} = props;
+  const history = useHistory();
+
   useEffect(() => {
     getSavedDrink(uid);
   }, []);
+
+  useEffect(() => {
+    if (saved.length === 0) {
+      history.push('/');
+    }
+  }, [saved]);
 
   return saved ? (
     <Container disableGutters>

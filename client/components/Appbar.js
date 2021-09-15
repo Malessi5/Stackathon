@@ -32,13 +32,14 @@ function ButtonAppBar(props) {
   const classes = useStyles();
   const {currentUser, signout} = useAuth();
   const history = useHistory();
-  const {setUser, clearAll} = props;
+  const {setUser, clearAll, saved} = props;
 
   useEffect(() => {
     if (currentUser) {
       setUser(currentUser);
     }
   }, [currentUser]);
+
   const handleLogout = async () => {
     try {
       await signout().then(() => {
@@ -68,6 +69,22 @@ function ButtonAppBar(props) {
     }
   };
 
+  const handleSavedClick = () => {
+    if (saved.length > 0) {
+      history.push('/saved');
+    } else {
+      toast.error(`You don't have any drinks saved!`, {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
   return (
     // <Container className={classes.root}>
     <AppBar position='static'>
@@ -90,7 +107,7 @@ function ButtonAppBar(props) {
         </Button> */}
         {currentUser ? (
           <div>
-            <Button color='inherit' component={Link} to='/saved'>
+            <Button color='inherit' onClick={handleSavedClick}>
               Saved
             </Button>{' '}
             <Button color='inherit' onClick={handleLogout}>
@@ -113,7 +130,7 @@ function ButtonAppBar(props) {
   );
 }
 const mapStateToProps = (state) => {
-  return {};
+  return {saved: state.saved};
 };
 
 const mapDispatchToProps = (dispatch) => {
