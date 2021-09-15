@@ -30,6 +30,7 @@ ReactDOM.render(
           pauseOnHover
         />
         <Appbar />
+
         <Switch>
           <Route exact path='/saved' component={Saved} />
           <Route exact path='/random' component={Random} />

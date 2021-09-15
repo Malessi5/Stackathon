@@ -14,6 +14,7 @@ import {useAuth} from '../contexts/AuthContext';
 import {toast} from 'react-toastify';
 import {connect} from 'react-redux';
 import {setUser, _clearAll} from '../redux/reducers';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  badge: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
   },
 }));
 
@@ -87,7 +93,7 @@ function ButtonAppBar(props) {
 
   return (
     // <Container className={classes.root}>
-    <AppBar position='static'>
+    <AppBar position='fixed'>
       <Toolbar>
         <IconButton
           edge='start'
@@ -107,9 +113,15 @@ function ButtonAppBar(props) {
         </Button> */}
         {currentUser ? (
           <div>
-            <Button color='inherit' onClick={handleSavedClick}>
-              Saved
-            </Button>{' '}
+            <Badge
+              className={classes.badge}
+              badgeContent={saved.length}
+              color='secondary'
+            >
+              <Button color='inherit' onClick={handleSavedClick}>
+                Saved
+              </Button>
+            </Badge>{' '}
             <Button color='inherit' onClick={handleLogout}>
               Log out
             </Button>

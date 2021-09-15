@@ -82,7 +82,7 @@ function Random(props) {
   }, []);
 
   return (
-    <Container className='main-container'>
+    <Container className='main-container' style={{marginTop: '45px'}}>
       {drink.glass !== undefined ? (
         <Drink
           drink={drink}
