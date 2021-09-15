@@ -53,6 +53,7 @@ export default function Login() {
             draggable: true,
             progress: undefined,
           });
+
           history.push('/');
         }
       );

@@ -43,6 +43,28 @@ router.post('/drinks', async (req, res, next) => {
   }
 });
 
+router.get('/users/:id/drinks', async (req, res, next) => {
+  try {
+    const drinks = await db.collection('users').doc(`${req.params.id}`).get();
+    res.status(200).json(drinks.data());
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/users/:id/drinks', async (req, res, next) => {
+  try {
+    const update = {drinks: req.body};
+    const newDrink = await db
+      .collection(`users`)
+      .doc(`${req.params.id}`)
+      .update(update);
+    res.status(200).json(newDrink);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post('/users/:id', async (req, res, next) => {
   try {
     // const newUser = await db.collection(`users/${req.body.uid}`).add(req.body);

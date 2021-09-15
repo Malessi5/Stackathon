@@ -50,9 +50,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SingleDrink(props) {
-  const {drink, saveDrink, findAnother} = props;
+  const {drink, saveDrink, findAnother, uid, saved} = props;
   const classes = useStyles();
   const {currentUser} = useAuth();
+  function saveHandle() {
+    console.log(uid);
+    saveDrink(drink, uid, saved);
+  }
 
   return (
     <Card className={classes.root}>
@@ -116,9 +120,7 @@ export default function SingleDrink(props) {
               variant='contained'
               color='primary'
               aria-label='delete'
-              onClick={() => {
-                saveDrink(drink);
-              }}
+              onClick={saveHandle}
               startIcon={<SaveIcon />}
             >
               Save

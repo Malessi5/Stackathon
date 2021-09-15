@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,6 +12,8 @@ import CasinoIcon from '@material-ui/icons/Casino';
 import LocalBarRoundedIcon from '@material-ui/icons/LocalBarRounded';
 import {useAuth} from '../contexts/AuthContext';
 import {toast} from 'react-toastify';
+import {connect} from 'react-redux';
+import {setUser} from '../redux/reducers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,11 +28,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar() {
+function ButtonAppBar(props) {
   const classes = useStyles();
   const {currentUser, signout} = useAuth();
   const history = useHistory();
+  const {setUser} = props;
 
+  useEffect(() => {
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  }, [currentUser]);
   const handleLogout = async () => {
     try {
       await signout().then(() => {
@@ -103,3 +111,14 @@ export default function ButtonAppBar() {
     // </Container>
   );
 }
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (user) => dispatch(setUser(user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar);

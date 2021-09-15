@@ -1,22 +1,20 @@
-import React, {useState, useEffect} from "react";
-import {connect} from "react-redux";
-import {fetchSavedDrinks, removeDrink} from "../redux/reducers";
-import Drink from "./Drink";
-import SingleDrink from "./SingleDrink";
-import Container from "@material-ui/core/Container";
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {fetchSavedDrinks, removeDrink} from '../redux/reducers';
+import Drink from './Drink';
+import SingleDrink from './SingleDrink';
+import Container from '@material-ui/core/Container';
 
 function Saved(props) {
-  const {saved, getSavedDrink, removeDrink} = props;
+  const {saved, getSavedDrink, removeDrink, uid} = props;
   useEffect(() => {
-    getSavedDrink();
+    getSavedDrink(uid);
   }, []);
 
   return saved ? (
     <Container disableGutters>
-      {saved.map((drink) => {
-        return (
-          <SingleDrink drink={drink} key={drink.id} removeDrink={removeDrink} />
-        );
+      {saved.map((drink, i) => {
+        return <SingleDrink drink={drink} key={i} removeDrink={removeDrink} />;
       })}
     </Container>
   ) : (
@@ -27,12 +25,13 @@ function Saved(props) {
 const mapStateToProps = (state) => {
   return {
     saved: state.saved,
+    uid: state.user.uid,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSavedDrink: () => dispatch(fetchSavedDrinks()),
+    getSavedDrink: (uid) => dispatch(fetchSavedDrinks(uid)),
     removeDrink: (drink) => dispatch(removeDrink(drink)),
   };
 };
