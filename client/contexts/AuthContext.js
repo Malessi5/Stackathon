@@ -1,8 +1,10 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {auth} from './firebase';
+import firebase from 'firebase/app';
 import axios from 'axios';
 
 const AuthContext = React.createContext();
+const provider = new firebase.auth.GoogleAuthProvider();
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -16,9 +18,19 @@ export function AuthProvider({children}) {
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then((newUser) => {
-        console.log(newUser);
+        //console.log(newUser);
         createNewAccount(email, newUser.user.uid);
       });
+  }
+
+  function googleSignIn() {
+    return auth.signInWithPopup(provider).then(async (result) => {
+      // const credential = result.credential;
+      // const token = credential.accessToken;
+      const user = result.user;
+      //check if user exists in db, if not, create a new document
+      userExists(user);
+    });
   }
 
   function login(email, password) {
@@ -27,6 +39,14 @@ export function AuthProvider({children}) {
 
   function signout() {
     return auth.signOut();
+  }
+
+  async function userExists(user) {
+    await axios.get(`/api/users/${user.uid}`).then((isUser) => {
+      if (!isUser.data) {
+        createNewAccount(user.email, user.uid);
+      }
+    });
   }
 
   async function createNewAccount(email, uid) {
@@ -47,6 +67,7 @@ export function AuthProvider({children}) {
     signup,
     login,
     signout,
+    googleSignIn,
   };
   return (
     <AuthContext.Provider value={value}>

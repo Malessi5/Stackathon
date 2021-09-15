@@ -23,8 +23,7 @@ function Copyright(props) {
   return (
     <Typography variant='body2' color='secondary' align='center' {...props}>
       {'Copyright © '}
-      Drink Randomizer
-      {new Date().getFullYear()}
+      Drink Randomizer {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
@@ -72,12 +71,47 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+  const handleGoogle = async (event) => {
+    event.preventDefault();
+
+    try {
+      setLoading(true);
+      await googleSignIn().then(() => {
+        toast.success('Login successful!', {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        history.push('/');
+      });
+      console.log(currentUser);
+    } catch (err) {
+      console.error(err);
+      toast.error(`${err.message}`, {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setLoading(false);
+    }
+  };
+
   const [loading, setLoading] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
 
-  const {login, currentUser} = useAuth();
+  const {login, currentUser, googleSignIn} = useAuth();
 
   return (
     <ThemeProvider theme={theme}>
@@ -136,6 +170,17 @@ export default function Login() {
             >
               Login
             </Button>
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              onClick={(e) => handleGoogle(e)}
+              style={{marginTop: '15px', marginBottom: '5px'}}
+              disabled={loading}
+            >
+              Sign in with Google
+            </Button>
             <Grid container justifyContent='flex-end'>
               <Grid item>
                 <Link to='/signup'>Need an Account? Sign up</Link>
@@ -143,7 +188,7 @@ export default function Login() {
             </Grid>
           </Box>
         </Box>
-        <Copyright style={{marginTop: 5}} />
+        <Copyright style={{marginTop: 25}} />
       </Container>
     </ThemeProvider>
   );

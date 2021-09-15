@@ -78,6 +78,21 @@ router.post('/users/:id', async (req, res, next) => {
   }
 });
 
+router.get('/users/:id', async (req, res, next) => {
+  try {
+    // const newUser = await db.collection(`users/${req.body.uid}`).add(req.body);
+    await db
+      .collection(`users`)
+      .doc(req.params.id)
+      .get()
+      .then((userData) => {
+        res.status(200).json(userData.exists);
+      });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.delete('/drinks/:id', async (req, res, next) => {
   try {
     await db.collection('drinks').doc(req.params.id).delete();

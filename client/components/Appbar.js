@@ -13,7 +13,7 @@ import LocalBarRoundedIcon from '@material-ui/icons/LocalBarRounded';
 import {useAuth} from '../contexts/AuthContext';
 import {toast} from 'react-toastify';
 import {connect} from 'react-redux';
-import {setUser} from '../redux/reducers';
+import {setUser, _clearAll} from '../redux/reducers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +32,7 @@ function ButtonAppBar(props) {
   const classes = useStyles();
   const {currentUser, signout} = useAuth();
   const history = useHistory();
-  const {setUser} = props;
+  const {setUser, clearAll} = props;
 
   useEffect(() => {
     if (currentUser) {
@@ -51,7 +51,8 @@ function ButtonAppBar(props) {
           draggable: true,
           progress: undefined,
         });
-        history.push('/');
+        clearAll();
+        history.push('/login');
       });
     } catch (error) {
       toast.error(`${error.message}`, {
@@ -118,6 +119,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setUser: (user) => dispatch(setUser(user)),
+    clearAll: () => dispatch(_clearAll()),
   };
 };
 

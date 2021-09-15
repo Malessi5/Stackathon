@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleDrink(props) {
+export default function Drink(props) {
   const {drink, saveDrink, findAnother, uid, saved} = props;
   const classes = useStyles();
   const {currentUser} = useAuth();

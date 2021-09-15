@@ -5,8 +5,15 @@ const GET_DRINK = 'GET_DRINK';
 const GET_SAVED = 'GET_SAVED';
 const SAVE_DRINK = 'SAVE_DRINK';
 const REMOVE_DRINK = 'REMOVE_DRINK';
+const CLEAR_ALL = 'CLEAR_ALL';
 
 const SET_USER = 'SET_USER';
+
+export const _clearAll = () => {
+  return {
+    type: CLEAR_ALL,
+  };
+};
 
 const _setUser = (user) => {
   return {
@@ -15,10 +22,10 @@ const _setUser = (user) => {
   };
 };
 
-const _removeDrink = (drink) => {
+const _removeDrink = (drinks) => {
   return {
     type: REMOVE_DRINK,
-    drink,
+    drinks,
   };
 };
 
@@ -51,41 +58,37 @@ export const setUser = (userData) => {
     dispatch(_setUser(user));
   };
 };
-export const removeDrink = (drink) => {
-  return async (dispatch) => {
-    try {
-      await axios.delete(
-        `https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/drinks/${drink.id}`
-      );
-      dispatch(_removeDrink(drink));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
-
-// export const saveDrink = (drink) => {
+// export const removeDrink = (drink) => {
 //   return async (dispatch) => {
 //     try {
-//       const response = await axios.post(
-//         "https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/drinks",
-//         drink
+//       await axios.delete(
+//         `https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/drinks/${drink.id}`
 //       );
-//       dispatch(_saveDrink(drink));
+//       dispatch(_removeDrink(drink));
 //     } catch (error) {
 //       console.error(error);
 //     }
 //   };
 // };
 
+export const removeDrink = (drink, drinks, uid) => {
+  return async (dispatch) => {
+    try {
+      const updated = drinks.filter((dr) => {
+        return dr.name !== drink.name;
+      });
+      await axios.post(`/api/users/${uid}/drinks`, updated);
+      dispatch(_removeDrink(updated));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 export const saveDrink = (drink, uid, saved) => {
   return async (dispatch) => {
     try {
       const updatedSaved = [...saved, drink];
-      // const response = await axios.post(
-      //   `https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/users/${uid}/drinks`,
-      //   drink
-      // );
       await axios.post(`/api/users/${uid}/drinks`, updatedSaved);
       dispatch(_saveDrink(drink));
     } catch (error) {
@@ -94,39 +97,11 @@ export const saveDrink = (drink, uid, saved) => {
   };
 };
 
-// export const fetchSavedDrinks = () => {
-//   return async (dispatch) => {
-//     try {
-//       const response = await axios.get(
-//         'https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/drinks'
-//       );
-//       response.data.sort((a, b) => {
-//         let fa = a.name.toLowerCase();
-//         let fb = b.name.toLowerCase();
-//         if (fa < fb) {
-//           return -1;
-//         }
-//         if (fa > fb) {
-//           return 1;
-//         }
-//         return 0;
-//       });
-//       dispatch(_getSavedDrinks(response.data));
-//     } catch (next) {
-//       console.error(next);
-//     }
-//   };
-// };
-
 export const fetchSavedDrinks = (uid) => {
   return async (dispatch) => {
     try {
-      // const response = await axios.get(
-      //   'https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/drinks'
-      // );
-
       const response = await axios.get(`/api/users/${uid}/drinks`);
-
+      console.log(response.data);
       const saved = response.data.drinks.sort((a, b) => {
         let fa = a.name.toLowerCase();
         let fb = b.name.toLowerCase();
@@ -209,13 +184,20 @@ export default function reducer(state = initialState, action) {
       return {...state, saved: action.drinks};
     case SAVE_DRINK:
       return {...state, saved: [...state.saved, action.drink]};
+    // case REMOVE_DRINK:
+    //   return {
+    //     ...state,
+    //     saved: state.saved.filter((drink) => drink.id !== action.drink.id),
+    //   };
     case REMOVE_DRINK:
       return {
         ...state,
-        saved: state.saved.filter((drink) => drink.id !== action.drink.id),
+        saved: action.drinks,
       };
     case SET_USER:
       return {...state, user: action.user};
+    case CLEAR_ALL:
+      return initialState;
     default:
       return state;
   }

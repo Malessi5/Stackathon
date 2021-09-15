@@ -23,18 +23,13 @@ function Copyright(props) {
   return (
     <Typography variant='body2' color='secondary' align='center' {...props}>
       {'Copyright © '}
-      Drink Randomizer
-      {new Date().getFullYear()}
+      Drink Randomizer {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
 }
 
 const theme = createTheme();
-
-// const useStyles = makeStyles({
-//   main: {},
-// });
 
 export default function SignUp() {
   const handleSubmit = async (event) => {
@@ -165,7 +160,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright style={{marginTop: 5}} />
+        <Copyright style={{marginTop: 25}} />
       </Container>
     </ThemeProvider>
   );

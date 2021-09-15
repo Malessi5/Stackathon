@@ -14,7 +14,15 @@ function Saved(props) {
   return saved ? (
     <Container disableGutters>
       {saved.map((drink, i) => {
-        return <SingleDrink drink={drink} key={i} removeDrink={removeDrink} />;
+        return (
+          <SingleDrink
+            drink={drink}
+            key={i}
+            removeDrink={removeDrink}
+            saved={saved}
+            uid={uid}
+          />
+        );
       })}
     </Container>
   ) : (
@@ -32,7 +40,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getSavedDrink: (uid) => dispatch(fetchSavedDrinks(uid)),
-    removeDrink: (drink) => dispatch(removeDrink(drink)),
+    removeDrink: (drink, saved, uid) =>
+      dispatch(removeDrink(drink, saved, uid)),
   };
 };
 

@@ -76,6 +76,7 @@ function Random(props) {
       await getDrink();
     }
     if (currentUser) {
+      console.log(currentUser);
       getSavedDrink(uid);
     }
   }, []);
