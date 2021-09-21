@@ -1,13 +1,13 @@
-import axios from 'axios';
-import key from '../apiconfig';
+import axios from "axios";
+import key from "../apiconfig";
 
-const GET_DRINK = 'GET_DRINK';
-const GET_SAVED = 'GET_SAVED';
-const SAVE_DRINK = 'SAVE_DRINK';
-const REMOVE_DRINK = 'REMOVE_DRINK';
-const CLEAR_ALL = 'CLEAR_ALL';
+const GET_DRINK = "GET_DRINK";
+const GET_SAVED = "GET_SAVED";
+const SAVE_DRINK = "SAVE_DRINK";
+const REMOVE_DRINK = "REMOVE_DRINK";
+const CLEAR_ALL = "CLEAR_ALL";
 
-const SET_USER = 'SET_USER';
+const SET_USER = "SET_USER";
 
 export const _clearAll = () => {
   return {
@@ -77,7 +77,10 @@ export const removeDrink = (drink, drinks, uid) => {
       const updated = drinks.filter((dr) => {
         return dr.name !== drink.name;
       });
-      await axios.post(`/api/users/${uid}/drinks`, updated);
+      await axios.post(
+        `https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/users/${uid}/drinks`,
+        updated
+      );
       dispatch(_removeDrink(updated));
     } catch (error) {
       console.error(error);
@@ -89,7 +92,10 @@ export const saveDrink = (drink, uid, saved) => {
   return async (dispatch) => {
     try {
       const updatedSaved = [...saved, drink];
-      await axios.post(`/api/users/${uid}/drinks`, updatedSaved);
+      await axios.post(
+        `https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/users/${uid}/drinks`,
+        updatedSaved
+      );
       dispatch(_saveDrink(drink));
     } catch (error) {
       console.error(error);
@@ -100,21 +106,27 @@ export const saveDrink = (drink, uid, saved) => {
 export const fetchSavedDrinks = (uid) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/users/${uid}/drinks`);
+      const response = await axios.get(
+        `https://us-central1-stackathon-eb2e6.cloudfunctions.net/app/api/users/${uid}/drinks`
+      );
       console.log(response.data);
-      const saved = response.data.drinks.sort((a, b) => {
-        let fa = a.name.toLowerCase();
-        let fb = b.name.toLowerCase();
-        if (fa < fb) {
-          return -1;
-        }
-        if (fa > fb) {
-          return 1;
-        }
-        return 0;
-      });
-      console.log('resp', saved);
-      dispatch(_getSavedDrinks(saved));
+      if (response.data.drinks) {
+        const saved = response.data.drinks.sort((a, b) => {
+          let fa = a.name.toLowerCase();
+          let fb = b.name.toLowerCase();
+          if (fa < fb) {
+            return -1;
+          }
+          if (fa > fb) {
+            return 1;
+          }
+          return 0;
+        });
+        console.log("resp", saved);
+        dispatch(_getSavedDrinks(saved));
+      } else {
+        dispatch(_getSavedDrinks([]));
+      }
     } catch (next) {
       console.error(next);
     }
@@ -124,11 +136,11 @@ export const fetchSavedDrinks = (uid) => {
 export const fetchDrink = () => {
   return async (dispatch) => {
     const options = {
-      method: 'GET',
-      url: 'https://the-cocktail-db.p.rapidapi.com/random.php',
+      method: "GET",
+      url: "https://the-cocktail-db.p.rapidapi.com/random.php",
       headers: {
-        'x-rapidapi-key': key(),
-        'x-rapidapi-host': 'the-cocktail-db.p.rapidapi.com',
+        "x-rapidapi-key": key(),
+        "x-rapidapi-host": "the-cocktail-db.p.rapidapi.com",
       },
     };
     await axios

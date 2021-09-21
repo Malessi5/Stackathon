@@ -1,24 +1,24 @@
-import React from 'react';
+import React from "react";
 import {
   makeStyles,
   createTheme,
   responsiveFontSizes,
   ThemeProvider,
-} from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import {red} from '@material-ui/core/colors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
-import {toast} from 'react-toastify';
+} from "@material-ui/core/styles";
+import clsx from "clsx";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Collapse from "@material-ui/core/Collapse";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import {red} from "@material-ui/core/colors";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
+import {toast} from "react-toastify";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
   },
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   expandOpen: {
-    transform: 'rotate(180deg)',
+    transform: "rotate(180deg)",
   },
 }));
 
@@ -56,9 +56,9 @@ export default function SingleDrink(props) {
   const handleDelete = async () => {
     try {
       await removeDrink(drink, saved, uid).then(() => {
-        toast.info('Drink deleted', {
-          position: 'top-center',
-          autoClose: 5000,
+        toast.info("Drink deleted", {
+          position: "top-center",
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -68,7 +68,7 @@ export default function SingleDrink(props) {
       });
     } catch (err) {
       toast.error(`${err.message}`, {
-        position: 'top-center',
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -89,9 +89,9 @@ export default function SingleDrink(props) {
       <ThemeProvider theme={theme}>
         <CardHeader
           title={drink.name}
-          titleTypographyProps={{variant: 'h2', gutterBottom: true}}
+          titleTypographyProps={{variant: "h2", gutterBottom: true}}
           subheader={drink.alcoholic}
-          subheaderTypographyProps={{variant: 'h4', gutterBottom: true}}
+          subheaderTypographyProps={{variant: "h4", gutterBottom: true}}
         />
 
         <CardMedia
@@ -118,7 +118,7 @@ export default function SingleDrink(props) {
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
-            <Typography variant='h4' gutterBottom style={{fontWeight: 'bold'}}>
+            <Typography variant='h4' gutterBottom style={{fontWeight: "bold"}}>
               Ingredients:
             </Typography>
             {drink.ingredients.map((ing, index) => {
@@ -136,7 +136,7 @@ export default function SingleDrink(props) {
                 >{`- ${ing}`}</Typography>
               );
             })}
-            <Typography variant='h4' gutterBottom style={{fontWeight: 'bold'}}>
+            <Typography variant='h4' gutterBottom style={{fontWeight: "bold"}}>
               Directions:
             </Typography>
             <Typography variant='h5' gutterBottom>

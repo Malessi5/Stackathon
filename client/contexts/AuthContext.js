@@ -1,7 +1,7 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {auth} from './firebase';
-import firebase from 'firebase/app';
-import axios from 'axios';
+import React, {useContext, useState, useEffect} from "react";
+import {auth} from "./firebase";
+import firebase from "firebase/app";
+import axios from "axios";
 
 const AuthContext = React.createContext();
 const provider = new firebase.auth.GoogleAuthProvider();
