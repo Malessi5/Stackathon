@@ -47,6 +47,7 @@ function ButtonAppBar(props) {
   }, [currentUser]);
 
   const findAnother = async () => {
+    history.push("/");
     await getDrink();
   };
   const handleLogout = async () => {

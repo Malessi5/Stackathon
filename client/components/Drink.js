@@ -75,22 +75,10 @@ export default function Drink(props) {
                 color='secondary'
                 aria-label='delete'
                 onClick={saveHandle}
-                // startIcon={}
               >
                 <FavoriteIcon />
               </Button>
             )
-            // <Button
-            //   className={classes.button}
-            //   variant='contained'
-            //   color='default'
-            //   aria-label='search'
-            //   onClick={() => {
-            //     findAnother();
-            //   }}
-            // >
-            //   <CasinoIcon />
-            // </Button>
           }
         />
         <CardMedia
